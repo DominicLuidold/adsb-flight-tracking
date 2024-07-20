@@ -1,0 +1,8 @@
+# Ultrafeeder data
+/ultrafeeder
+
+# Local development
+/.idea
+
+# Configuration files
+.env.local
