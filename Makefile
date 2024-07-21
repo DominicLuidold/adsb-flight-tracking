@@ -11,14 +11,14 @@ include .env.local
 start: ## Start ultrafeeder and fr24feed
 	@docker compose -f ./docker/compose.yaml up -d
 
-stop: ## Stop the ultrafeeder and fr24feed
-	@docker compose down
+stop: ## Stop ultrafeeder and fr24feed
+	@docker compose -f ./docker/compose.yaml down
 
-## Healtchecks
-healthcheck-ultrafeeder: ## Get ultrafeeder container healtcheck data
+## Healthchecks
+healthcheck-ultrafeeder: ## Get ultrafeeder container healthcheck data
 	@docker inspect ultrafeeder | jq .[0].State.Health.Log | jq .[-1].Output | awk '{gsub(/\\n/,"\n")}1'
 
-healthcheck-fr24: ## Get fr24 container healtcheck data
+healthcheck-fr24: ## Get fr24 container healthcheck data
 	@docker inspect fr24 | jq .[0].State.Health.Log | jq .[-1].Output | awk '{gsub(/\\n/,"\n")}1'
 
 ## Help
