@@ -11,7 +11,7 @@ services:
             - '8080:80'
         environment:
             # General parameters
-            - LOGLEVEL=error
+            - LOGLEVEL=${LOG_LEVEL:-error}
             - TZ=${FEEDER_TZ}
             - UUID=${ULTRAFEEDER_UUID}
             - MLAT_USER=${FEEDER_NAME}

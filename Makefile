@@ -5,14 +5,17 @@ include .env.local
 
 # Makefile config
 .DEFAULT_GOAL:=help
-.PHONY: start stop healthcheck-ultrafeeder healthcheck-fr24 help
+.PHONY: start debug stop healthcheck-ultrafeeder healthcheck-fr24 help
 
 ## Docker stack
 start: ## Start ultrafeeder and fr24feed
-	@docker compose -f ./docker/compose.yaml up -d
+	@docker compose -f ./docker/compose.yaml -p ${PROJECT_NAME} up -d
+
+debug: ## Start ultrafeeder with DEBUG logging and fr24feed
+	@LOG_LEVEL=debug docker compose -f ./docker/compose.yaml -p ${PROJECT_NAME} up -d
 
 stop: ## Stop ultrafeeder and fr24feed
-	@docker compose -f ./docker/compose.yaml down
+	@docker compose -p ${PROJECT_NAME} down
 
 ## Healthchecks
 healthcheck-ultrafeeder: ## Get ultrafeeder container healthcheck data
