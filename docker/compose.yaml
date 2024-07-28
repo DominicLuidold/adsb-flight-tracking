@@ -49,8 +49,8 @@ services:
             # GRAPHS1090 (Decoder and System Status Web Page) parameters
             - GRAPHS1090_DARKMODE=true
         volumes:
-            - /opt/adsb/ultrafeeder/globe_history:/var/globe_history
-            - /opt/adsb/ultrafeeder/graphs1090:/var/lib/collectd
+            - ${PROJECT_DIR}/ultrafeeder/globe_history:/var/globe_history
+            - ${PROJECT_DIR}/ultrafeeder/graphs1090:/var/lib/collectd
             - /proc/diskstats:/proc/diskstats:ro
             - /dev:/dev:ro
         tmpfs:
