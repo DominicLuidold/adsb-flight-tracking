@@ -8,20 +8,20 @@ include .env.local
 .PHONY: start debug stop healthcheck-ultrafeeder healthcheck-fr24 help
 
 ## Docker stack
-start: ## Start ultrafeeder and fr24feed
+start: ## Start ultrafeeder and fr24feed.
 	@docker compose -f ./docker/compose.yaml -p ${PROJECT_NAME} up -d
 
-debug: ## Start ultrafeeder with DEBUG logging and fr24feed
+debug: ## Start ultrafeeder with DEBUG logging enabled and fr24feed.
 	@LOG_LEVEL=debug docker compose -f ./docker/compose.yaml -p ${PROJECT_NAME} up -d
 
-stop: ## Stop ultrafeeder and fr24feed
+stop: ## Stop ultrafeeder and fr24feed.
 	@docker compose -p ${PROJECT_NAME} down
 
 ## Healthchecks
-healthcheck-ultrafeeder: ## Get ultrafeeder container healthcheck data
+healthcheck-ultrafeeder: ## Get ultrafeeder container healthcheck data.
 	@docker inspect ultrafeeder | jq .[0].State.Health.Log | jq .[-1].Output | awk '{gsub(/\\n/,"\n")}1'
 
-healthcheck-fr24: ## Get fr24 container healthcheck data
+healthcheck-fr24: ## Get fr24 container healthcheck data.
 	@docker inspect fr24 | jq .[0].State.Health.Log | jq .[-1].Output | awk '{gsub(/\\n/,"\n")}1'
 
 ## Help
