@@ -7,8 +7,6 @@ services:
         restart: unless-stopped
         device_cgroup_rules:
             - c 189:* rwm
-        ports:
-            - '8080:80'
         environment:
             # General parameters
             - LOGLEVEL=${LOG_LEVEL:-error}
@@ -47,6 +45,8 @@ services:
             - TAR1090_USEROUTEAPI=true
             # GRAPHS1090 (Decoder and System Status Web Page) parameters
             - GRAPHS1090_DARKMODE=true
+        networks:
+            - traefik-network
         volumes:
             - ${PROJECT_DIR}/ultrafeeder/globe_history:/var/globe_history
             - ${PROJECT_DIR}/ultrafeeder/graphs1090:/var/lib/collectd
@@ -56,17 +56,29 @@ services:
             - /run:exec,size=256M
             - /tmp:size=128M
             - /var/log:size=32M
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.ultrafeeder.rule=Host(`adsb.raspberrypi.local`)"
+            - "traefik.http.services.ultrafeeder.loadBalancer.server.port=80"
 
     fr24:
         image: ghcr.io/sdr-enthusiasts/docker-flightradar24:latest
         tty: true
         container_name: fr24
         restart: unless-stopped
-        ports:
-            - '8754:8754'
         environment:
             - BEASTHOST=ultrafeeder
             - FR24KEY=${FR24_SHARING_KEY}
             - MLAT=${FR24_MLAT}
+        networks:
+            - traefik-network
         tmpfs:
             - /var/log
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.fr24.rule=Host(`fr24.raspberrypi.local`)"
+            - "traefik.http.services.ultrafeeder.loadBalancer.server.port=8754"
+
+networks:
+    traefik-network:
+        external: true
