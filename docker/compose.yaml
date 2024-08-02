@@ -58,7 +58,7 @@ services:
             - /var/log:size=32M
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.ultrafeeder.rule=Host(`adsb.raspberrypi.local`)"
+            - "traefik.http.routers.ultrafeeder.rule=Host(`adsb.raspberrypi.lan`)"
             - "traefik.http.services.ultrafeeder.loadBalancer.server.port=80"
 
     fr24:
@@ -76,8 +76,8 @@ services:
             - /var/log
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.fr24.rule=Host(`fr24.raspberrypi.local`)"
-            - "traefik.http.services.ultrafeeder.loadBalancer.server.port=8754"
+            - "traefik.http.routers.fr24.rule=Host(`fr24.raspberrypi.lan`)"
+            - "traefik.http.services.fr24.loadBalancer.server.port=8754"
 
 networks:
     traefik-network:
