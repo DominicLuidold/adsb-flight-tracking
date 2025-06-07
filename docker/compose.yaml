@@ -45,13 +45,15 @@ services:
             - TAR1090_USEROUTEAPI=true
             # GRAPHS1090 (Decoder and System Status Web Page) parameters
             - GRAPHS1090_DARKMODE=true
+        dns:
+            - 9.9.9.9
         networks:
             - traefik-network
         volumes:
             - ${PROJECT_DIR}/ultrafeeder/globe_history:/var/globe_history
             - ${PROJECT_DIR}/ultrafeeder/graphs1090:/var/lib/collectd
             - /proc/diskstats:/proc/diskstats:ro
-            - /dev:/dev:ro
+            - /dev/bus/usb:/dev/bus/usb:rw
         tmpfs:
             - /run:exec,size=256M
             - /tmp:size=128M
